@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EvideenceObvytelstva2.Migrations
 {
     /// <inheritdoc />
-    public partial class final : Migration
+    public partial class pepa : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -117,15 +117,14 @@ namespace EvideenceObvytelstva2.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    TitulPred = table.Column<string>(type: "TEXT", nullable: true),
                     KrestniJmeno = table.Column<string>(type: "TEXT", nullable: false),
                     Prijmeni = table.Column<string>(type: "TEXT", nullable: false),
-                    Titul = table.Column<string>(type: "TEXT", nullable: false),
+                    TitulZa = table.Column<string>(type: "TEXT", nullable: true),
                     Vek = table.Column<int>(type: "INTEGER", nullable: false),
                     AddressId = table.Column<int>(type: "INTEGER", nullable: false),
-                    StudentId = table.Column<int>(type: "INTEGER", nullable: false),
-                    ZamestnanecId = table.Column<int>(type: "INTEGER", nullable: false),
-                    StudentId1 = table.Column<int>(type: "INTEGER", nullable: true),
-                    ZamestnanecId1 = table.Column<int>(type: "INTEGER", nullable: true)
+                    StudentId = table.Column<int>(type: "INTEGER", nullable: true),
+                    ZamestnanecId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -143,21 +142,11 @@ namespace EvideenceObvytelstva2.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Osobas_Students_StudentId1",
-                        column: x => x.StudentId1,
-                        principalTable: "Students",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Osobas_Zamestnanecs_ZamestnanecId",
                         column: x => x.ZamestnanecId,
                         principalTable: "Zamestnanecs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Osobas_Zamestnanecs_ZamestnanecId1",
-                        column: x => x.ZamestnanecId1,
-                        principalTable: "Zamestnanecs",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -168,26 +157,12 @@ namespace EvideenceObvytelstva2.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Osobas_StudentId",
                 table: "Osobas",
-                column: "StudentId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Osobas_StudentId1",
-                table: "Osobas",
-                column: "StudentId1",
-                unique: true);
+                column: "StudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Osobas_ZamestnanecId",
                 table: "Osobas",
-                column: "ZamestnanecId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Osobas_ZamestnanecId1",
-                table: "Osobas",
-                column: "ZamestnanecId1",
-                unique: true);
+                column: "ZamestnanecId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Skolas_AdresaId",

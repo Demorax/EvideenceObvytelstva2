@@ -44,105 +44,126 @@ namespace EvideenceObvytelstva2.UI
         private void button1_Click(object sender, EventArgs e)
         {
 
-                if (string.IsNullOrEmpty(textBoxJmeno.Text))
-                {
-                    MessageBox.Show("Políčko jméno nevyplněno", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    textBoxJmeno.Focus();
-                    return;
-                }
+            if (string.IsNullOrEmpty(textBoxJmeno.Text) || string.IsNullOrEmpty(textBoxPrijmeni.Text))
+            {
+                MessageBox.Show("Políčko jméno nebo příjmení nevyplněno", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBoxJmeno.Focus();
+                textBoxPrijmeni.Focus();
+                return;
+            }
 
-                Osoba osoba = new Osoba();
+
+            Osoba osoba = new Osoba();
+
+            try
+            {
                 osoba.Id = Convert.ToInt32(labelID.Text);
+                object? selectedTitulPred = comboBoxTitulyPred.SelectedItem;
                 osoba.KrestniJmeno = textBoxJmeno.Text;
                 osoba.Prijmeni = textBoxPrijmeni.Text;
-                osoba.Titul = comboBoxTituly.SelectedItem.ToString();
-                osoba.Vek = int.Parse(textBoxVek.Text);
-                osoba.AddressId = int.Parse(textBoxAdresaId.Text);
+                object? selectedTitulZa = comboBoxTitulyZa.SelectedItem;
 
-                try
+                object selectedAdresa = comboBoxAdresa.SelectedItem;
+                Adresa adresa = selectedAdresa as Adresa;
+                osoba.AddressId = adresa.Id;
+
+                object? selectedStudent = comboBoxStudent.SelectedItem;
+                object? selectedZamestnanec = comboBoxZamestnanec.SelectedItem;
+                int vek;
+                if (int.TryParse(textBoxVek.Text, out vek))
                 {
-                    if (string.IsNullOrEmpty(textBoxZamestnanecID.Text))
-                    {
-                        osoba.ZamestnanecId = null;
-                    }
-                    else
-                    {
-                        osoba.ZamestnanecId = int.Parse(textBoxZamestnanecID.Text);
-                    }
-
-                    if (string.IsNullOrEmpty(textBoxStudentID.Text))
-                    {
-                        osoba.StudentId = null;
-                    }
-                    else
-                    {
-                        osoba.StudentId = int.Parse(textBoxStudentID.Text);
-                    }
-
-                    if (!mainForm.adresaManager.AdresaExist(osoba.AddressId))
-                    {
-                        MessageBox.Show("Daná adresa se v databázi nenachází, objekt Osoba nebyl vytvořen", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        return;
-                    }
-
-                    if (!mainForm.studentManager.StudentExist(osoba.StudentId) && osoba.StudentId != null)
-                    {
-                        MessageBox.Show("Daný student se v databázi nenachází, objekt Osoba nebyl vytvořen", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        return;
-                    }
-
-
-                    if (!mainForm.zamestnanecManager.ZamestnanecExist(osoba.ZamestnanecId) && osoba.ZamestnanecId != null)
-                    {
-                        MessageBox.Show("Daný zaměstnanec se v databázi nenachází, objekt Osoba nebyl vytvořen", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        return;
-                    }
-
-                }
-                catch (FormatException ex)
-                {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
-                if (mainForm.osobaManager.Update(osoba))
-                {
-                    MessageBox.Show("Osoba přidána do databáze", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    mainForm.dataOsoba();
+                    osoba.Vek = vek;
                 }
                 else
                 {
-                    MessageBox.Show("Osoba nepřidána do databáze", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Špatně zadaný formát pro věk, objekt Osoba nebyl vytvořen", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
                 }
 
-            
-         }
+                if (selectedTitulPred == null)
+                {
+                    osoba.TitulPred = null;
+                }
+                else
+                {
+                    osoba.TitulPred = selectedTitulPred.ToString();
 
-        public void Reset()
-        {
-            try
-            {
-                dataAdresa(int.Parse(textBoxAdresaId.Text));
-                //dataSkola();
-                dataStudent(int.Parse(textBoxStudentID.Text));
-                dataZamestnanec(int.Parse(textBoxZamestnanecID.Text));
-                //dataZamestnani();
+                }
+
+                if (selectedTitulZa == null)
+                {
+                    osoba.TitulZa = null;
+                }
+                else
+                {
+                    osoba.TitulZa = selectedTitulZa.ToString();
+                }
+
+                if (selectedZamestnanec == null)
+                {
+                    osoba.ZamestnanecId = null;
+                }
+                else
+                {
+                    Zamestnanec zamestnanec = selectedZamestnanec as Zamestnanec;
+                    osoba.ZamestnanecId = zamestnanec.Id;
+                }
+                if (selectedStudent == null)
+                {
+                    osoba.StudentId = null;
+                }
+                else
+                {
+                    Student student = selectedStudent as Student;
+                    osoba.StudentId = student.Id;
+                }
+
+
+
+                if (!mainForm.adresaManager.AdresaExist(osoba.AddressId))
+                {
+                    MessageBox.Show("Daná adresa se v databázi nenachází, objekt Osoba nebyl vytvořen", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                if (!mainForm.studentManager.StudentExist(osoba.StudentId) && osoba.StudentId != null)
+                {
+                    MessageBox.Show("Daný student se v databázi nenachází, objekt Osoba nebyl vytvořen", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+
+                if (!mainForm.zamestnanecManager.ZamestnanecExist(osoba.ZamestnanecId) && osoba.ZamestnanecId != null)
+                {
+                    MessageBox.Show("Daný zaměstnanec se v databázi nenachází, objekt Osoba nebyl vytvořen", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
             }
-            catch (Exception ex)
+            catch (FormatException ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+            if (mainForm.osobaManager.Update(osoba))
+            {
+                MessageBox.Show("Osoba upravena", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                mainForm.dataOsoba();
+            }
+            else
+            {
+                MessageBox.Show("Osoba neupravena", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+
         }
 
-        public void dataSkola()
+        public void dataSkola(int id)
         {
             dataGridSkola.Rows.Clear();
-            List<Skola> temp = mainForm.skolaManager.GetAll();
 
-            foreach (Skola item in temp)
-            {
-                dataGridSkola.Rows.Add(item.Id, item.NazevSkoly, item.Poznamka, item.AdresaId);
-            }
+            Skola skola = mainForm.skolaManager.GetSkola(id);
+            dataGridSkola.Rows.Add(skola.Id, skola.NazevSkoly, skola.Poznamka, skola.AdresaId);
 
         }
         public void dataAdresa(int id)
@@ -158,12 +179,9 @@ namespace EvideenceObvytelstva2.UI
         public void dataZamestnani(int id)
         {
             dataGridZamestnani.Rows.Clear();
-            List<Zamestnani> temp = mainForm.zamestnaniManager.GetAll();
+            Zamestnani zamestnani = mainForm.zamestnaniManager.GetZamestnani(id);
 
-            foreach (Zamestnani item in temp)
-            {
-                dataGridZamestnani.Rows.Add(item.Id, item.NazevFirmy, item.Poznamka, item.AdresaId);
-            }
+            dataGridZamestnani.Rows.Add(zamestnani.Id, zamestnani.NazevFirmy, zamestnani.Poznamka, zamestnani.AdresaId);
 
         }
 
@@ -171,7 +189,10 @@ namespace EvideenceObvytelstva2.UI
         {
             dataGridStudent.Rows.Clear();
             Student student = mainForm.studentManager.GetStudent(id);
+
             dataGridStudent.Rows.Add(student.Id, student.OborStudia, student.Rocnik, student.SkolaId);
+
+            dataSkola(student.SkolaId);
 
 
         }
@@ -180,7 +201,9 @@ namespace EvideenceObvytelstva2.UI
         {
             dataGridZamestnanec.Rows.Clear();
             Zamestnanec zamestnanec = mainForm.zamestnanecManager.GetZamestnanec(id);
+
             dataGridZamestnanec.Rows.Add(zamestnanec.Id, zamestnanec.Nastup, zamestnanec.Oddeleni, zamestnanec.ZamestnaniId);
+            dataZamestnani(zamestnanec.ZamestnaniId);
 
 
         }

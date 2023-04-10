@@ -18,30 +18,32 @@ namespace EvideenceObvytelstva2.UI
         {
             InitializeComponent();
             this.mainForm = mainForm;
-            FillDataGrid();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            //TODO čeknout všechny textboxy
-            if (string.IsNullOrEmpty(textBoxPoznamka.Text))
+            if (string.IsNullOrEmpty(textBoxPoznamka.Text) || string.IsNullOrEmpty(textNazevZamestnani.Text))
             {
-                MessageBox.Show("Políčko Obec nevyplněno", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Políčko Poznámka nebo Název Zaměstnání nevyplněno", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBoxPoznamka.Focus();
                 return;
             }
             Zamestnani zamestnani = new Zamestnani();
-            if (mainForm.adresaManager.AdresaExist(int.Parse(textBoxAdresaID.Text)))
+            object? selectedAdresa = comboBoxAdresa.SelectedItem;
+            if (selectedAdresa == null)
             {
-                zamestnani.Id = int.Parse(labelIDInput.Text);
-                zamestnani.NazevFirmy = textNazevZamestnani.Text;
-                zamestnani.Poznamka = textBoxPoznamka.Text;
-                zamestnani.AdresaId = int.Parse(textBoxAdresaID.Text);
+                MessageBox.Show("Políčko Adresa musí být vyplněno", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
             else
             {
-                MessageBox.Show("Zaměstnání neupraveno, Adresa neexistuje", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Adresa adresa = selectedAdresa as Adresa;
+                zamestnani.AdresaId = adresa.Id;
             }
+            zamestnani.Id = int.Parse(labelIDInput.Text);
+            zamestnani.NazevFirmy = textNazevZamestnani.Text;
+            zamestnani.Poznamka = textBoxPoznamka.Text;
+
             if (mainForm.zamestnaniManager.Update(zamestnani))
             {
                 MessageBox.Show("Zaměstnání upraveno", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -52,15 +54,13 @@ namespace EvideenceObvytelstva2.UI
             }
         }
 
-        private void FillDataGrid()
+        public void dataAdresa(int id)
         {
             dataGridAddress.Rows.Clear();
-            List<Adresa> temp = mainForm.adresaManager.GetAll();
+            Adresa adresa = mainForm.adresaManager.GetAdresa(id);
 
-            foreach (Adresa item in temp)
-            {
-                dataGridAddress.Rows.Add(item.Id, item.Ulice, item.cisloPopisne, item.psc, item.Obec);
-            }
+            dataGridAddress.Rows.Add(adresa.Id, adresa.Ulice, adresa.cisloPopisne, adresa.psc, adresa.Obec);
+
 
         }
     }

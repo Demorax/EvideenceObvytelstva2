@@ -28,16 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            comboBoxTituly = new ComboBox();
-            textBoxZamestnanecID = new TextBox();
-            label6 = new Label();
-            textBoxStudentID = new TextBox();
-            label7 = new Label();
             textBoxVek = new TextBox();
             label8 = new Label();
-            label9 = new Label();
-            textBoxAdresaId = new TextBox();
-            labelAdresaId = new Label();
             button2 = new Button();
             textBoxPrijmeni = new TextBox();
             textBoxJmeno = new TextBox();
@@ -70,6 +62,16 @@
             psc = new DataGridViewTextBoxColumn();
             Obec = new DataGridViewTextBoxColumn();
             labelID = new Label();
+            comboBoxStudent = new ComboBox();
+            comboBoxZamestnanec = new ComboBox();
+            comboBoxAdresa = new ComboBox();
+            label4 = new Label();
+            label1 = new Label();
+            label2 = new Label();
+            comboBoxTitulyZa = new ComboBox();
+            label5 = new Label();
+            comboBoxTitulyPred = new ComboBox();
+            label3 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridZamestnani).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridSkola).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridZamestnanec).BeginInit();
@@ -77,50 +79,9 @@
             ((System.ComponentModel.ISupportInitialize)dataGridAddress).BeginInit();
             SuspendLayout();
             // 
-            // comboBoxTituly
-            // 
-            comboBoxTituly.FormattingEnabled = true;
-            comboBoxTituly.Items.AddRange(new object[] { "Bc.", "BcA.", "DiS.", "doc.", "dr. h. c. ", "Ing. ", "JUDr.", "MDDr. ", "Mgr.", "Ph.D. " });
-            comboBoxTituly.Location = new Point(224, 27);
-            comboBoxTituly.Name = "comboBoxTituly";
-            comboBoxTituly.Size = new Size(121, 23);
-            comboBoxTituly.TabIndex = 55;
-            // 
-            // textBoxZamestnanecID
-            // 
-            textBoxZamestnanecID.Location = new Point(12, 128);
-            textBoxZamestnanecID.Name = "textBoxZamestnanecID";
-            textBoxZamestnanecID.Size = new Size(100, 23);
-            textBoxZamestnanecID.TabIndex = 54;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(12, 110);
-            label6.Name = "label6";
-            label6.Size = new Size(93, 15);
-            label6.TabIndex = 53;
-            label6.Text = "ID zamestnance:";
-            // 
-            // textBoxStudentID
-            // 
-            textBoxStudentID.Location = new Point(224, 81);
-            textBoxStudentID.Name = "textBoxStudentID";
-            textBoxStudentID.Size = new Size(100, 23);
-            textBoxStudentID.TabIndex = 52;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Location = new Point(224, 63);
-            label7.Name = "label7";
-            label7.Size = new Size(70, 15);
-            label7.TabIndex = 51;
-            label7.Text = "ID studenta:";
-            // 
             // textBoxVek
             // 
-            textBoxVek.Location = new Point(118, 81);
+            textBoxVek.Location = new Point(143, 75);
             textBoxVek.Name = "textBoxVek";
             textBoxVek.Size = new Size(100, 23);
             textBoxVek.TabIndex = 50;
@@ -128,36 +89,11 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(118, 63);
+            label8.Location = new Point(143, 57);
             label8.Name = "label8";
             label8.Size = new Size(28, 15);
             label8.TabIndex = 49;
             label8.Text = "Věk:";
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Location = new Point(224, 9);
-            label9.Name = "label9";
-            label9.Size = new Size(33, 15);
-            label9.TabIndex = 48;
-            label9.Text = "Titul:";
-            // 
-            // textBoxAdresaId
-            // 
-            textBoxAdresaId.Location = new Point(12, 81);
-            textBoxAdresaId.Name = "textBoxAdresaId";
-            textBoxAdresaId.Size = new Size(100, 23);
-            textBoxAdresaId.TabIndex = 47;
-            // 
-            // labelAdresaId
-            // 
-            labelAdresaId.AutoSize = true;
-            labelAdresaId.Location = new Point(12, 63);
-            labelAdresaId.Name = "labelAdresaId";
-            labelAdresaId.Size = new Size(61, 15);
-            labelAdresaId.TabIndex = 46;
-            labelAdresaId.Text = "ID adresy: ";
             // 
             // button2
             // 
@@ -333,7 +269,7 @@
             // 
             dataGridAddress.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridAddress.Columns.AddRange(new DataGridViewColumn[] { AddressId, Ulice, cisloPopisne, psc, Obec });
-            dataGridAddress.Location = new Point(471, 1);
+            dataGridAddress.Location = new Point(471, 6);
             dataGridAddress.MultiSelect = false;
             dataGridAddress.Name = "dataGridAddress";
             dataGridAddress.RowTemplate.Height = 25;
@@ -369,37 +305,126 @@
             // labelID
             // 
             labelID.AutoSize = true;
-            labelID.Location = new Point(384, 30);
+            labelID.Location = new Point(275, 24);
             labelID.Name = "labelID";
             labelID.Size = new Size(0, 15);
             labelID.TabIndex = 61;
+            // 
+            // comboBoxStudent
+            // 
+            comboBoxStudent.FormattingEnabled = true;
+            comboBoxStudent.Location = new Point(256, 128);
+            comboBoxStudent.Name = "comboBoxStudent";
+            comboBoxStudent.Size = new Size(199, 23);
+            comboBoxStudent.TabIndex = 67;
+            // 
+            // comboBoxZamestnanec
+            // 
+            comboBoxZamestnanec.FormattingEnabled = true;
+            comboBoxZamestnanec.Location = new Point(256, 75);
+            comboBoxZamestnanec.Name = "comboBoxZamestnanec";
+            comboBoxZamestnanec.Size = new Size(199, 23);
+            comboBoxZamestnanec.TabIndex = 66;
+            // 
+            // comboBoxAdresa
+            // 
+            comboBoxAdresa.FormattingEnabled = true;
+            comboBoxAdresa.Location = new Point(256, 24);
+            comboBoxAdresa.Name = "comboBoxAdresa";
+            comboBoxAdresa.Size = new Size(199, 23);
+            comboBoxAdresa.TabIndex = 65;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(256, 57);
+            label4.Name = "label4";
+            label4.Size = new Size(93, 15);
+            label4.TabIndex = 64;
+            label4.Text = "ID zamestnance:";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(256, 110);
+            label1.Name = "label1";
+            label1.Size = new Size(70, 15);
+            label1.TabIndex = 63;
+            label1.Text = "ID studenta:";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(256, 6);
+            label2.Name = "label2";
+            label2.Size = new Size(61, 15);
+            label2.TabIndex = 62;
+            label2.Text = "ID adresy: ";
+            // 
+            // comboBoxTitulyZa
+            // 
+            comboBoxTitulyZa.FormattingEnabled = true;
+            comboBoxTitulyZa.Items.AddRange(new object[] { "DiS.", "MBA", "LL.M.", "Ph.D. ", "CSc.", "DrSc. ", "" });
+            comboBoxTitulyZa.Location = new Point(12, 128);
+            comboBoxTitulyZa.Name = "comboBoxTitulyZa";
+            comboBoxTitulyZa.Size = new Size(121, 23);
+            comboBoxTitulyZa.TabIndex = 71;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(12, 110);
+            label5.Name = "label5";
+            label5.Size = new Size(94, 15);
+            label5.TabIndex = 70;
+            label5.Text = "Titul za jménem:";
+            // 
+            // comboBoxTitulyPred
+            // 
+            comboBoxTitulyPred.FormattingEnabled = true;
+            comboBoxTitulyPred.Items.AddRange(new object[] { "Bc.", "BcA.", "Ing. ", "JUDr.", "MDDr. ", "PhDr.", "Mgr.", "Ph.D. ", "doc. ", "prof. " });
+            comboBoxTitulyPred.Location = new Point(12, 75);
+            comboBoxTitulyPred.Name = "comboBoxTitulyPred";
+            comboBoxTitulyPred.Size = new Size(121, 23);
+            comboBoxTitulyPred.TabIndex = 69;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(12, 57);
+            label3.Name = "label3";
+            label3.Size = new Size(107, 15);
+            label3.TabIndex = 68;
+            label3.Text = "Titul před jménem:";
             // 
             // osobaDetail
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1018, 477);
+            ClientSize = new Size(1058, 477);
+            Controls.Add(comboBoxTitulyZa);
+            Controls.Add(label5);
+            Controls.Add(comboBoxTitulyPred);
+            Controls.Add(label3);
+            Controls.Add(comboBoxStudent);
+            Controls.Add(comboBoxZamestnanec);
+            Controls.Add(comboBoxAdresa);
+            Controls.Add(label4);
+            Controls.Add(label1);
+            Controls.Add(label2);
             Controls.Add(labelID);
             Controls.Add(dataGridZamestnani);
             Controls.Add(dataGridSkola);
             Controls.Add(dataGridZamestnanec);
             Controls.Add(dataGridStudent);
             Controls.Add(dataGridAddress);
-            Controls.Add(comboBoxTituly);
-            Controls.Add(textBoxZamestnanecID);
-            Controls.Add(label6);
             Controls.Add(labelJmeno);
-            Controls.Add(textBoxStudentID);
             Controls.Add(labelPrijmeni);
-            Controls.Add(label7);
             Controls.Add(textBoxJmeno);
             Controls.Add(textBoxVek);
             Controls.Add(textBoxPrijmeni);
             Controls.Add(label8);
             Controls.Add(button2);
-            Controls.Add(label9);
-            Controls.Add(labelAdresaId);
-            Controls.Add(textBoxAdresaId);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "osobaDetail";
@@ -442,20 +467,22 @@
         private DataGridViewTextBoxColumn psc;
         private DataGridViewTextBoxColumn Obec;
         public Label labelID;
-        public ComboBox comboBoxTituly;
-        public TextBox textBoxZamestnanecID;
-        public Label label6;
-        public TextBox textBoxStudentID;
-        public Label label7;
         public TextBox textBoxVek;
         public Label label8;
-        public Label label9;
-        public TextBox textBoxAdresaId;
-        public Label labelAdresaId;
         public Button button2;
         public TextBox textBoxPrijmeni;
         public TextBox textBoxJmeno;
         public Label labelPrijmeni;
         public Label labelJmeno;
+        public ComboBox comboBoxStudent;
+        public ComboBox comboBoxZamestnanec;
+        public ComboBox comboBoxAdresa;
+        public Label label4;
+        public Label label1;
+        public Label label2;
+        private Label label5;
+        private Label label3;
+        public ComboBox comboBoxTitulyZa;
+        public ComboBox comboBoxTitulyPred;
     }
 }

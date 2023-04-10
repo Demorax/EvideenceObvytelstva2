@@ -11,7 +11,8 @@ namespace EvideenceObvytelstva2.Models
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(@"Data Source=C:\\Users\\tomas\\source\\repos\\EvideenceObvytelstva2\\DB\\test1.db");
+            optionsBuilder.UseSqlite(@"Data Source=..\database\sqlite.db");
+
         }
         public DbSet<Osoba> Osobas { get; set; }
 
@@ -37,14 +38,14 @@ namespace EvideenceObvytelstva2.Models
             //Osoba - Student
             modelBuilder.Entity<Osoba>()
                .HasOne(p => p.Student)
-               .WithOne(s => s.Osoba)
-               .HasForeignKey<Osoba?>(s => s.StudentId)
+               .WithMany(s => s.Osobas)
+               .HasForeignKey(s => s.StudentId)
                .OnDelete(DeleteBehavior.Restrict);
             //Osoba - zamestnanec
             modelBuilder.Entity<Osoba>()
                .HasOne(p => p.Zamestnanec)
-               .WithOne(z => z.Osoba)
-               .HasForeignKey<Osoba?>(s => s.ZamestnanecId)
+               .WithMany(z => z.Osobas)
+               .HasForeignKey(s => s.ZamestnanecId)
                .OnDelete(DeleteBehavior.Restrict);
             //Student - Skola
             modelBuilder.Entity<Student>()

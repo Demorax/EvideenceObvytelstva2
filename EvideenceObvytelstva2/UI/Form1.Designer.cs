@@ -36,9 +36,10 @@
             button1 = new Button();
             dataGrid = new DataGridView();
             Id = new DataGridViewTextBoxColumn();
+            TitulPred = new DataGridViewTextBoxColumn();
             FirstName = new DataGridViewTextBoxColumn();
             LastName = new DataGridViewTextBoxColumn();
-            Titul = new DataGridViewTextBoxColumn();
+            TitulZa = new DataGridViewTextBoxColumn();
             Vek = new DataGridViewTextBoxColumn();
             AdresaID = new DataGridViewTextBoxColumn();
             StudentID = new DataGridViewTextBoxColumn();
@@ -55,15 +56,12 @@
             contextMenuStrip2 = new ContextMenuStrip(components);
             deleteToolStripMenuItem1 = new ToolStripMenuItem();
             updateToolStripMenuItem = new ToolStripMenuItem();
-            textBoxAdresaId = new TextBox();
             labelAdresaId = new Label();
             sqliteCommand1 = new Microsoft.Data.Sqlite.SqliteCommand();
-            textBoxStudentID = new TextBox();
             label1 = new Label();
             textBoxVek = new TextBox();
             label2 = new Label();
             label3 = new Label();
-            textBoxZamestnanecID = new TextBox();
             label4 = new Label();
             label9 = new Label();
             label10 = new Label();
@@ -104,13 +102,18 @@
             buttonAddSkola = new Button();
             buttonAddZamestnanec = new Button();
             buttonAddZamestnani = new Button();
-            comboBoxTituly = new ComboBox();
+            comboBoxTitulyPred = new ComboBox();
             contextMenuStrip3 = new ContextMenuStrip(components);
             toolStripMenuItem1 = new ToolStripMenuItem();
             toolStripMenuItem2 = new ToolStripMenuItem();
             contextMenuStrip4 = new ContextMenuStrip(components);
             toolStripMenuItem3 = new ToolStripMenuItem();
             toolStripMenuItem4 = new ToolStripMenuItem();
+            comboBoxAdresa = new ComboBox();
+            comboBoxZamestnanec = new ComboBox();
+            comboBoxStudent = new ComboBox();
+            comboBoxTitulyZa = new ComboBox();
+            label5 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGrid).BeginInit();
             contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridAddress).BeginInit();
@@ -161,7 +164,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(143, 131);
+            button1.Location = new Point(258, 188);
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 7;
@@ -173,9 +176,9 @@
             // 
             dataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGrid.Columns.AddRange(new DataGridViewColumn[] { Id, FirstName, LastName, Titul, Vek, AdresaID, StudentID, ZamestnanecID });
+            dataGrid.Columns.AddRange(new DataGridViewColumn[] { Id, TitulPred, FirstName, LastName, TitulZa, Vek, AdresaID, StudentID, ZamestnanecID });
             dataGrid.ContextMenuStrip = contextMenuStrip1;
-            dataGrid.Location = new Point(351, 26);
+            dataGrid.Location = new Point(461, 36);
             dataGrid.MultiSelect = false;
             dataGrid.Name = "dataGrid";
             dataGrid.RowTemplate.Height = 25;
@@ -192,6 +195,11 @@
             Id.Name = "Id";
             Id.ReadOnly = true;
             // 
+            // TitulPred
+            // 
+            TitulPred.HeaderText = "Titul před";
+            TitulPred.Name = "TitulPred";
+            // 
             // FirstName
             // 
             FirstName.HeaderText = "Křestní jméno";
@@ -202,10 +210,10 @@
             LastName.HeaderText = "Přijmení";
             LastName.Name = "LastName";
             // 
-            // Titul
+            // TitulZa
             // 
-            Titul.HeaderText = "Titul";
-            Titul.Name = "Titul";
+            TitulZa.HeaderText = "Titul za";
+            TitulZa.Name = "TitulZa";
             // 
             // Vek
             // 
@@ -309,13 +317,6 @@
             updateToolStripMenuItem.Text = "Update";
             updateToolStripMenuItem.Click += updateToolStripMenuItem_Click;
             // 
-            // textBoxAdresaId
-            // 
-            textBoxAdresaId.Location = new Point(12, 84);
-            textBoxAdresaId.Name = "textBoxAdresaId";
-            textBoxAdresaId.Size = new Size(100, 23);
-            textBoxAdresaId.TabIndex = 20;
-            // 
             // labelAdresaId
             // 
             labelAdresaId.AutoSize = true;
@@ -332,17 +333,10 @@
             sqliteCommand1.Transaction = null;
             sqliteCommand1.UpdatedRowSource = System.Data.UpdateRowSource.None;
             // 
-            // textBoxStudentID
-            // 
-            textBoxStudentID.Location = new Point(224, 84);
-            textBoxStudentID.Name = "textBoxStudentID";
-            textBoxStudentID.Size = new Size(100, 23);
-            textBoxStudentID.TabIndex = 26;
-            // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(224, 66);
+            label1.Location = new Point(12, 170);
             label1.Name = "label1";
             label1.Size = new Size(70, 15);
             label1.TabIndex = 25;
@@ -350,7 +344,7 @@
             // 
             // textBoxVek
             // 
-            textBoxVek.Location = new Point(118, 84);
+            textBoxVek.Location = new Point(355, 30);
             textBoxVek.Name = "textBoxVek";
             textBoxVek.Size = new Size(100, 23);
             textBoxVek.TabIndex = 24;
@@ -358,7 +352,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(118, 66);
+            label2.Location = new Point(353, 12);
             label2.Name = "label2";
             label2.Size = new Size(28, 15);
             label2.TabIndex = 22;
@@ -369,21 +363,14 @@
             label3.AutoSize = true;
             label3.Location = new Point(224, 12);
             label3.Name = "label3";
-            label3.Size = new Size(33, 15);
+            label3.Size = new Size(107, 15);
             label3.TabIndex = 21;
-            label3.Text = "Titul:";
-            // 
-            // textBoxZamestnanecID
-            // 
-            textBoxZamestnanecID.Location = new Point(12, 131);
-            textBoxZamestnanecID.Name = "textBoxZamestnanecID";
-            textBoxZamestnanecID.Size = new Size(100, 23);
-            textBoxZamestnanecID.TabIndex = 28;
+            label3.Text = "Titul před jménem:";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(12, 113);
+            label4.Location = new Point(12, 117);
             label4.Name = "label4";
             label4.Size = new Size(93, 15);
             label4.TabIndex = 27;
@@ -392,7 +379,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(351, 8);
+            label9.Location = new Point(492, 9);
             label9.Name = "label9";
             label9.Size = new Size(78, 15);
             label9.TabIndex = 29;
@@ -505,14 +492,14 @@
             // deleteToolStripMenuItem4
             // 
             deleteToolStripMenuItem4.Name = "deleteToolStripMenuItem4";
-            deleteToolStripMenuItem4.Size = new Size(180, 22);
+            deleteToolStripMenuItem4.Size = new Size(112, 22);
             deleteToolStripMenuItem4.Text = "Delete";
             deleteToolStripMenuItem4.Click += deleteToolStripMenuItem4_Click;
             // 
             // updateToolStripMenuItem4
             // 
             updateToolStripMenuItem4.Name = "updateToolStripMenuItem4";
-            updateToolStripMenuItem4.Size = new Size(180, 22);
+            updateToolStripMenuItem4.Size = new Size(112, 22);
             updateToolStripMenuItem4.Text = "Update";
             updateToolStripMenuItem4.Click += updateToolStripMenuItem4_Click;
             // 
@@ -608,25 +595,25 @@
             // 
             contextMenuStrip8.Items.AddRange(new ToolStripItem[] { deleteToolStripMenuItem5, updateToolStripMenuItem5 });
             contextMenuStrip8.Name = "contextMenuStrip8";
-            contextMenuStrip8.Size = new Size(181, 70);
+            contextMenuStrip8.Size = new Size(113, 48);
             // 
             // deleteToolStripMenuItem5
             // 
             deleteToolStripMenuItem5.Name = "deleteToolStripMenuItem5";
-            deleteToolStripMenuItem5.Size = new Size(180, 22);
+            deleteToolStripMenuItem5.Size = new Size(112, 22);
             deleteToolStripMenuItem5.Text = "Delete";
             deleteToolStripMenuItem5.Click += deleteToolStripMenuItem5_Click;
             // 
             // updateToolStripMenuItem5
             // 
             updateToolStripMenuItem5.Name = "updateToolStripMenuItem5";
-            updateToolStripMenuItem5.Size = new Size(180, 22);
+            updateToolStripMenuItem5.Size = new Size(112, 22);
             updateToolStripMenuItem5.Text = "Update";
             updateToolStripMenuItem5.Click += updateToolStripMenuItem5_Click;
             // 
             // buttonAddAdres
             // 
-            buttonAddAdres.Location = new Point(1108, 66);
+            buttonAddAdres.Location = new Point(1187, 234);
             buttonAddAdres.Name = "buttonAddAdres";
             buttonAddAdres.Size = new Size(141, 23);
             buttonAddAdres.TabIndex = 35;
@@ -636,7 +623,7 @@
             // 
             // buttonAddStudent
             // 
-            buttonAddStudent.Location = new Point(1108, 101);
+            buttonAddStudent.Location = new Point(1187, 269);
             buttonAddStudent.Name = "buttonAddStudent";
             buttonAddStudent.Size = new Size(141, 23);
             buttonAddStudent.TabIndex = 36;
@@ -646,7 +633,7 @@
             // 
             // buttonAddSkola
             // 
-            buttonAddSkola.Location = new Point(1108, 179);
+            buttonAddSkola.Location = new Point(1187, 347);
             buttonAddSkola.Name = "buttonAddSkola";
             buttonAddSkola.Size = new Size(141, 23);
             buttonAddSkola.TabIndex = 38;
@@ -656,7 +643,7 @@
             // 
             // buttonAddZamestnanec
             // 
-            buttonAddZamestnanec.Location = new Point(1108, 138);
+            buttonAddZamestnanec.Location = new Point(1187, 306);
             buttonAddZamestnanec.Name = "buttonAddZamestnanec";
             buttonAddZamestnanec.Size = new Size(141, 23);
             buttonAddZamestnanec.TabIndex = 37;
@@ -666,7 +653,7 @@
             // 
             // buttonAddZamestnani
             // 
-            buttonAddZamestnani.Location = new Point(1108, 218);
+            buttonAddZamestnani.Location = new Point(1187, 386);
             buttonAddZamestnani.Name = "buttonAddZamestnani";
             buttonAddZamestnani.Size = new Size(141, 23);
             buttonAddZamestnani.TabIndex = 39;
@@ -674,14 +661,14 @@
             buttonAddZamestnani.UseVisualStyleBackColor = true;
             buttonAddZamestnani.Click += buttonAddZamestnani_Click;
             // 
-            // comboBoxTituly
+            // comboBoxTitulyPred
             // 
-            comboBoxTituly.FormattingEnabled = true;
-            comboBoxTituly.Items.AddRange(new object[] { "Bc.", "BcA.", "DiS.", "doc.", "dr. h. c. ", "Ing. ", "JUDr.", "MDDr. ", "Mgr.", "Ph.D. " });
-            comboBoxTituly.Location = new Point(224, 30);
-            comboBoxTituly.Name = "comboBoxTituly";
-            comboBoxTituly.Size = new Size(121, 23);
-            comboBoxTituly.TabIndex = 40;
+            comboBoxTitulyPred.FormattingEnabled = true;
+            comboBoxTitulyPred.Items.AddRange(new object[] { "Bc.", "BcA.", "Ing. ", "JUDr.", "MDDr. ", "PhDr.", "Mgr.", "Ph.D. ", "doc. ", "prof. " });
+            comboBoxTitulyPred.Location = new Point(224, 30);
+            comboBoxTitulyPred.Name = "comboBoxTitulyPred";
+            comboBoxTitulyPred.Size = new Size(121, 23);
+            comboBoxTitulyPred.TabIndex = 40;
             // 
             // contextMenuStrip3
             // 
@@ -719,12 +706,59 @@
             toolStripMenuItem4.Size = new Size(112, 22);
             toolStripMenuItem4.Text = "Update";
             // 
+            // comboBoxAdresa
+            // 
+            comboBoxAdresa.FormattingEnabled = true;
+            comboBoxAdresa.Location = new Point(12, 84);
+            comboBoxAdresa.Name = "comboBoxAdresa";
+            comboBoxAdresa.Size = new Size(199, 23);
+            comboBoxAdresa.TabIndex = 41;
+            // 
+            // comboBoxZamestnanec
+            // 
+            comboBoxZamestnanec.FormattingEnabled = true;
+            comboBoxZamestnanec.Location = new Point(12, 135);
+            comboBoxZamestnanec.Name = "comboBoxZamestnanec";
+            comboBoxZamestnanec.Size = new Size(199, 23);
+            comboBoxZamestnanec.TabIndex = 42;
+            // 
+            // comboBoxStudent
+            // 
+            comboBoxStudent.FormattingEnabled = true;
+            comboBoxStudent.Location = new Point(12, 188);
+            comboBoxStudent.Name = "comboBoxStudent";
+            comboBoxStudent.Size = new Size(199, 23);
+            comboBoxStudent.TabIndex = 43;
+            // 
+            // comboBoxTitulyZa
+            // 
+            comboBoxTitulyZa.FormattingEnabled = true;
+            comboBoxTitulyZa.Items.AddRange(new object[] { "DiS.", "MBA", "LL.M.", "Ph.D. ", "CSc.", "DrSc. ", "" });
+            comboBoxTitulyZa.Location = new Point(224, 84);
+            comboBoxTitulyZa.Name = "comboBoxTitulyZa";
+            comboBoxTitulyZa.Size = new Size(121, 23);
+            comboBoxTitulyZa.TabIndex = 45;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(224, 66);
+            label5.Name = "label5";
+            label5.Size = new Size(94, 15);
+            label5.TabIndex = 44;
+            label5.Text = "Titul za jménem:";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1360, 622);
-            Controls.Add(comboBoxTituly);
+            Controls.Add(comboBoxTitulyZa);
+            Controls.Add(label5);
+            Controls.Add(comboBoxStudent);
+            Controls.Add(comboBoxZamestnanec);
+            Controls.Add(comboBoxAdresa);
+            Controls.Add(comboBoxTitulyPred);
             Controls.Add(buttonAddZamestnani);
             Controls.Add(buttonAddSkola);
             Controls.Add(buttonAddZamestnanec);
@@ -736,14 +770,11 @@
             Controls.Add(dataGridStudent);
             Controls.Add(label10);
             Controls.Add(label9);
-            Controls.Add(textBoxZamestnanecID);
             Controls.Add(label4);
-            Controls.Add(textBoxStudentID);
             Controls.Add(label1);
             Controls.Add(textBoxVek);
             Controls.Add(label2);
             Controls.Add(label3);
-            Controls.Add(textBoxAdresaId);
             Controls.Add(labelAdresaId);
             Controls.Add(dataGridAddress);
             Controls.Add(dataGrid);
@@ -789,24 +820,13 @@
         private DataGridViewTextBoxColumn cisloPopisne;
         private DataGridViewTextBoxColumn psc;
         private DataGridViewTextBoxColumn Obec;
-        private TextBox textBoxAdresaId;
         private Label labelAdresaId;
         private Microsoft.Data.Sqlite.SqliteCommand sqliteCommand1;
-        private TextBox textBoxStudentID;
         private Label label1;
         private TextBox textBoxVek;
         private Label label2;
         private Label label3;
-        private TextBox textBoxZamestnanecID;
         private Label label4;
-        private DataGridViewTextBoxColumn Id;
-        private DataGridViewTextBoxColumn FirstName;
-        private DataGridViewTextBoxColumn LastName;
-        private DataGridViewTextBoxColumn Titul;
-        private DataGridViewTextBoxColumn Vek;
-        private DataGridViewTextBoxColumn AdresaID;
-        private DataGridViewTextBoxColumn StudentID;
-        private DataGridViewTextBoxColumn ZamestnanecID;
         private Label label9;
         private Label label10;
         private DataGridView dataGridStudent;
@@ -834,7 +854,7 @@
         private Button buttonAddSkola;
         private Button buttonAddZamestnanec;
         private Button buttonAddZamestnani;
-        private ComboBox comboBoxTituly;
+        private ComboBox comboBoxTitulyPred;
         private ToolStripMenuItem updateToolStripMenuItem1;
         private ContextMenuStrip contextMenuStrip2;
         private ToolStripMenuItem deleteToolStripMenuItem1;
@@ -857,5 +877,19 @@
         private ContextMenuStrip contextMenuStrip8;
         private ToolStripMenuItem deleteToolStripMenuItem5;
         private ToolStripMenuItem updateToolStripMenuItem5;
+        private ComboBox comboBoxAdresa;
+        private ComboBox comboBoxZamestnanec;
+        private ComboBox comboBoxStudent;
+        private ComboBox comboBoxTitulyZa;
+        private Label label5;
+        private DataGridViewTextBoxColumn Id;
+        private DataGridViewTextBoxColumn TitulPred;
+        private DataGridViewTextBoxColumn FirstName;
+        private DataGridViewTextBoxColumn LastName;
+        private DataGridViewTextBoxColumn TitulZa;
+        private DataGridViewTextBoxColumn Vek;
+        private DataGridViewTextBoxColumn AdresaID;
+        private DataGridViewTextBoxColumn StudentID;
+        private DataGridViewTextBoxColumn ZamestnanecID;
     }
 }

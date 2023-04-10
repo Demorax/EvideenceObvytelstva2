@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace EvideenceObvytelstva2.UI
 {
@@ -25,16 +26,36 @@ namespace EvideenceObvytelstva2.UI
         private void button2_Click(object sender, EventArgs e)
         {
             //TODO čeknout všechny textboxy
-            if (string.IsNullOrEmpty(textBoxObec.Text))
+            if (string.IsNullOrEmpty(textBoxObec.Text) || string.IsNullOrEmpty(textBoxUlice.Text))
             {
-                MessageBox.Show("Políčko Obec nevyplněno", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Políčko Obec nebo Ulice nevyplněno", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBoxObec.Focus();
                 return;
             }
             adresa = new Adresa();
             adresa.Ulice = textBoxUlice.Text;
-            adresa.cisloPopisne = int.Parse(textBoxPopisne.Text);
-            adresa.psc = int.Parse(textBoxPsc.Text);
+            int cisloPopisne;
+            if (int.TryParse(textBoxPopisne.Text, out cisloPopisne))
+            {
+                adresa.cisloPopisne = cisloPopisne;
+            }
+            else
+            {
+                MessageBox.Show("Políčko cisloPopisne špatně vyplněno", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBoxPopisne.Focus();
+                return;
+            }
+            int psc;
+            if (int.TryParse(textBoxPsc.Text, out psc))
+            {
+                adresa.psc = psc;
+            }
+            else
+            {
+                MessageBox.Show("Políčko psc špatně vyplněno", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBoxPopisne.Focus();
+                return;
+            }
             adresa.Obec = textBoxObec.Text;
             if (mainForm.adresaManager.Add(adresa))
             {

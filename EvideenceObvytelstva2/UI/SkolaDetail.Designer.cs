@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBoxAdresaID = new TextBox();
             label8 = new Label();
             button2 = new Button();
             textBoxPoznamka = new TextBox();
@@ -43,15 +42,9 @@
             cisloPopisne = new DataGridViewTextBoxColumn();
             psc = new DataGridViewTextBoxColumn();
             Obec = new DataGridViewTextBoxColumn();
+            comboBoxAdresa = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dataGridAddress).BeginInit();
             SuspendLayout();
-            // 
-            // textBoxAdresaID
-            // 
-            textBoxAdresaID.Location = new Point(12, 131);
-            textBoxAdresaID.Name = "textBoxAdresaID";
-            textBoxAdresaID.Size = new Size(100, 23);
-            textBoxAdresaID.TabIndex = 49;
             // 
             // label8
             // 
@@ -64,7 +57,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(143, 131);
+            button2.Location = new Point(75, 167);
             button2.Name = "button2";
             button2.Size = new Size(75, 23);
             button2.TabIndex = 47;
@@ -159,15 +152,23 @@
             Obec.HeaderText = "Obec";
             Obec.Name = "Obec";
             // 
+            // comboBoxAdresa
+            // 
+            comboBoxAdresa.FormattingEnabled = true;
+            comboBoxAdresa.Location = new Point(12, 131);
+            comboBoxAdresa.Name = "comboBoxAdresa";
+            comboBoxAdresa.Size = new Size(199, 23);
+            comboBoxAdresa.TabIndex = 53;
+            // 
             // SkolaDetail
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(784, 175);
+            ClientSize = new Size(784, 202);
+            Controls.Add(comboBoxAdresa);
             Controls.Add(dataGridAddress);
             Controls.Add(labelIDInput);
             Controls.Add(labelID);
-            Controls.Add(textBoxAdresaID);
             Controls.Add(label8);
             Controls.Add(button2);
             Controls.Add(textBoxPoznamka);
@@ -182,8 +183,6 @@
         }
 
         #endregion
-
-        public TextBox textBoxAdresaID;
         public Label label8;
         public TextBox textBoxPoznamka;
         public TextBox textNazevSkoly;
@@ -198,5 +197,6 @@
         private DataGridViewTextBoxColumn psc;
         private DataGridViewTextBoxColumn Obec;
         public Button button2;
+        public ComboBox comboBoxAdresa;
     }
 }

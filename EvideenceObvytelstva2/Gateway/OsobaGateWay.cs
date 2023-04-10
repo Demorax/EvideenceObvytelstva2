@@ -37,10 +37,11 @@ namespace EvideenceObvytelstva2.Gateway
                 return false;
             }
             gate.Id = osoba.Id;
+            gate.TitulPred = osoba.TitulPred;
             gate.AddressId = osoba.AddressId;
             gate.KrestniJmeno = osoba.KrestniJmeno;
             gate.Prijmeni = osoba.Prijmeni;
-            gate.Titul = osoba.Titul;
+            gate.TitulZa = osoba.TitulZa;
             gate.Vek = osoba.Vek;
             gate.StudentId = osoba.StudentId;
             gate.ZamestnanecId = osoba.ZamestnanecId;

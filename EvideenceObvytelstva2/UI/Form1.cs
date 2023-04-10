@@ -4,6 +4,7 @@ using EvideenceObvytelstva2.UI;
 using System.Net.PeerToPeer.Collaboration;
 using System.Numerics;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace EvideenceObvytelstva2
 {
@@ -19,7 +20,6 @@ namespace EvideenceObvytelstva2
         {
             InitializeComponent();
             Reset();
-
             this.dataGridSkola.ClearSelection();
             this.dataGridStudent.ClearSelection();
             this.dataGridZamestnanec.ClearSelection();
@@ -31,38 +31,82 @@ namespace EvideenceObvytelstva2
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxJmeno.Text))
+            if (string.IsNullOrEmpty(textBoxJmeno.Text) || string.IsNullOrEmpty(textBoxPrijmeni.Text))
             {
-                MessageBox.Show("Políèko jméno nevyplnìno", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Políèko jméno nebo pøíjmení nevyplnìno", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBoxJmeno.Focus();
+                textBoxPrijmeni.Focus();
                 return;
             }
 
             Osoba osoba = new Osoba();
-            osoba.KrestniJmeno = textBoxJmeno.Text;
-            osoba.Prijmeni = textBoxPrijmeni.Text;
-            osoba.Titul = comboBoxTituly.SelectedItem.ToString();
-            osoba.AddressId = int.Parse(textBoxAdresaId.Text);
-            osoba.Vek = int.Parse(textBoxVek.Text);
+
             try
             {
-                if (string.IsNullOrEmpty(textBoxZamestnanecID.Text))
+                object? selectedTitulPred = comboBoxTitulyPred.SelectedItem;
+                osoba.KrestniJmeno = textBoxJmeno.Text;
+                osoba.Prijmeni = textBoxPrijmeni.Text;
+                object? selectedTitulZa = comboBoxTitulyZa.SelectedItem;
+
+                object selectedAdresa = comboBoxAdresa.SelectedItem;
+                Adresa adresa = selectedAdresa as Adresa;
+                osoba.AddressId = adresa.Id;
+
+                object? selectedStudent = comboBoxStudent.SelectedItem;
+                object? selectedZamestnanec = comboBoxZamestnanec.SelectedItem;
+                int vek;
+                if (int.TryParse(textBoxVek.Text, out vek))
                 {
-                    osoba.ZamestnanecId = null;
+                    osoba.Vek = vek;
                 }
                 else
                 {
-                    osoba.ZamestnanecId = int.Parse(textBoxZamestnanecID.Text);
+                    MessageBox.Show("Špatnì zadaný formát pro vìk, objekt Osoba nebyl vytvoøen", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
                 }
 
-                if (string.IsNullOrEmpty(textBoxStudentID.Text))
+
+                if (selectedTitulPred == null || selectedTitulZa == null || selectedZamestnanec == null || selectedStudent == null)
                 {
-                    osoba.StudentId = null;
+                    if (selectedTitulPred == null)
+                    {
+                        osoba.TitulPred = null;
+                    }
+                    else
+                    {
+                        osoba.TitulPred = selectedTitulPred.ToString();
+
+                    }
+
+                    if (selectedTitulZa == null)
+                    {
+                        osoba.TitulZa = null;
+                    }
+                    else
+                    {
+                        osoba.TitulZa = selectedTitulZa.ToString();
+                    }
+                    if (selectedZamestnanec == null)
+                    {
+                        osoba.ZamestnanecId = null;
+                    }
+                    else
+                    {
+                        Zamestnanec zamestnanec = selectedZamestnanec as Zamestnanec;
+                        osoba.ZamestnanecId = zamestnanec.Id;
+                    }
+                    if (selectedStudent == null)
+                    {
+                        osoba.StudentId = null;
+                    }
+                    else
+                    {
+                        Student student = selectedStudent as Student;
+                        osoba.StudentId = student.Id;
+                    }
                 }
-                else
-                {
-                    osoba.StudentId = int.Parse(textBoxStudentID.Text);
-                }
+
+
 
                 if (!adresaManager.AdresaExist(osoba.AddressId))
                 {
@@ -126,37 +170,139 @@ namespace EvideenceObvytelstva2
                 //this.Hide();
                 //osobaDetail.Show();
                 osobaDetail.labelID.Text = row.Cells[0].Value.ToString();
-                osobaDetail.textBoxJmeno.Text = row.Cells[1].Value.ToString();
-                osobaDetail.textBoxPrijmeni.Text = row.Cells[2].Value.ToString();
-                int index = osobaDetail.comboBoxTituly.FindStringExact(row.Cells[3].Value.ToString());
-                if (index >= 0)
+                osobaDetail.textBoxJmeno.Text = row.Cells[2].Value.ToString();
+                osobaDetail.textBoxPrijmeni.Text = row.Cells[3].Value.ToString();
+                osobaDetail.textBoxVek.Text = row.Cells[5].Value.ToString();
+                osobaDetail.comboBoxTitulyZa.Items.Clear();
+                osobaDetail.comboBoxTitulyPred.Items.Clear();
+                foreach (var item in comboBoxTitulyPred.Items)
                 {
-                    osobaDetail.comboBoxTituly.SelectedIndex = index;
+                    osobaDetail.comboBoxTitulyPred.Items.Add(item);
                 }
-                osobaDetail.textBoxVek.Text = row.Cells[4].Value.ToString();
-                Adresa adresa = adresaManager.GetAdresa(int.Parse(row.Cells[5].Value.ToString()));
-                if (row.Cells[6].Value?.ToString() == null)
+                foreach (var item in comboBoxTitulyZa.Items)
                 {
-                    osobaDetail.textBoxStudentID.Text = "";
+                    osobaDetail.comboBoxTitulyZa.Items.Add(item);
+                }
+                foreach (var item in comboBoxAdresa.Items)
+                {
+                    osobaDetail.comboBoxAdresa.Items.Add(item);
+                }
+                foreach (var item in comboBoxStudent.Items)
+                {
+                    osobaDetail.comboBoxStudent.Items.Add(item);
+                }
+                foreach (var item in comboBoxZamestnanec.Items)
+                {
+                    osobaDetail.comboBoxZamestnanec.Items.Add(item);
+                }
+
+                if (row.Cells[1].Value?.ToString() != null)
+                {
+                    string? selectedTitul = row.Cells[1].Value.ToString();
+
+                    for (int i = 0; i < comboBoxTitulyPred.Items.Count; i++)
+                    {
+                        string titulTemp = comboBoxTitulyPred.Items[i].ToString();
+                        if (titulTemp != null && titulTemp == selectedTitul)
+                        {
+                            osobaDetail.comboBoxTitulyPred.SelectedIndex = i;
+                            break;
+                        }
+                    }
                 }
                 else
                 {
-                    Student student = studentManager.GetStudent(int.Parse(row.Cells[6].Value.ToString()));
+                    osobaDetail.comboBoxTitulyPred.SelectedIndex = -1;
+                }
+
+                if (row.Cells[4].Value?.ToString() != null)
+                {
+                    string? selectedTitul = row.Cells[4].Value.ToString();
+
+                    for (int i = 0; i < comboBoxTitulyZa.Items.Count; i++)
+                    {
+                        string titulTemp = comboBoxTitulyZa.Items[i].ToString();
+                        if (titulTemp != null && titulTemp == selectedTitul)
+                        {
+                            osobaDetail.comboBoxTitulyZa.SelectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    osobaDetail.comboBoxTitulyZa.SelectedIndex = -1;
+                }
+
+                if (row.Cells[6].Value?.ToString() != null)
+                {
+                    Adresa adresa = adresaManager.GetAdresa(int.Parse(row.Cells[6].Value.ToString()));
+                    int adresaId = adresa.Id;
+
+                    for (int i = 0; i < comboBoxAdresa.Items.Count; i++)
+                    {
+                        Adresa adresaTemp = comboBoxAdresa.Items[i] as Adresa;
+                        if (adresaTemp != null && adresaTemp.Id == adresaId)
+                        {
+                            osobaDetail.comboBoxAdresa.SelectedIndex = i;
+                            break;
+                        }
+                    }
+                    osobaDetail.dataAdresa(adresa.Id);
+                }
+                else
+                {
+                    osobaDetail.comboBoxAdresa.SelectedIndex = -1;
+                }
+
+
+
+                if (row.Cells[7].Value?.ToString() != null)
+                {
+                    Student student = studentManager.GetStudent(int.Parse(row.Cells[7].Value.ToString()));
+                    int studentId = student.Id;
+
+                    for (int i = 0; i < comboBoxStudent.Items.Count; i++)
+                    {
+                        Student studentTemp = comboBoxStudent.Items[i] as Student;
+                        if (studentTemp != null && studentTemp.Id == studentId)
+                        {
+                            osobaDetail.comboBoxStudent.SelectedIndex = i;
+                            break;
+                        }
+                    }
                     osobaDetail.dataStudent(student.Id);
-                    osobaDetail.textBoxStudentID.Text = student.Id.ToString();
-                }
-                if (row.Cells[7].Value?.ToString() == null)
-                {
-                    osobaDetail.textBoxZamestnanecID.Text = "";
                 }
                 else
                 {
-                    Zamestnanec zamestnanec = zamestnanecManager.GetZamestnanec(int.Parse(row.Cells[7].Value.ToString()));
-                    osobaDetail.dataZamestnanec(zamestnanec.Id);
-                    osobaDetail.textBoxZamestnanecID.Text = zamestnanec.Id.ToString();
+                    osobaDetail.comboBoxStudent.SelectedIndex = -1;
                 }
-                osobaDetail.textBoxAdresaId.Text = adresa.Id.ToString();
-                osobaDetail.dataAdresa(adresa.Id);
+
+
+
+
+                if (row.Cells[8].Value?.ToString() != null)
+                {
+                    Zamestnanec zamestnanec = zamestnanecManager.GetZamestnanec(int.Parse(row.Cells[8].Value.ToString()));
+                    int zamestnanecId = zamestnanec.Id;
+
+                    for (int i = 0; i < comboBoxZamestnanec.Items.Count; i++)
+                    {
+                        Zamestnanec zamestnanecTemp = comboBoxZamestnanec.Items[i] as Zamestnanec;
+                        if (zamestnanecTemp != null && zamestnanecTemp.Id == zamestnanecId)
+                        {
+                            osobaDetail.comboBoxZamestnanec.SelectedIndex = i;
+                            break;
+                        }
+
+                    }
+                    osobaDetail.dataZamestnanec(zamestnanec.Id);
+                }
+                else
+                {
+                    osobaDetail.comboBoxZamestnanec.SelectedIndex = -1;
+                }
+
                 osobaDetail.ShowDialog();
             }
             catch (Exception ex)
@@ -211,37 +357,138 @@ namespace EvideenceObvytelstva2
                 //this.Hide();
                 //osobaDetail.Show();
                 osobaDetail.labelID.Text = row.Cells[0].Value.ToString();
-                osobaDetail.textBoxJmeno.Text = row.Cells[1].Value.ToString();
-                osobaDetail.textBoxPrijmeni.Text = row.Cells[2].Value.ToString();
-                int index = osobaDetail.comboBoxTituly.FindStringExact(row.Cells[3].Value.ToString());
-                if (index >= 0)
+                osobaDetail.textBoxJmeno.Text = row.Cells[2].Value.ToString();
+                osobaDetail.textBoxPrijmeni.Text = row.Cells[3].Value.ToString();
+                osobaDetail.textBoxVek.Text = row.Cells[5].Value.ToString();
+
+                foreach (var item in comboBoxTitulyPred.Items)
                 {
-                    osobaDetail.comboBoxTituly.SelectedIndex = index;
+                    osobaDetail.comboBoxTitulyPred.Items.Add(item);
                 }
-                osobaDetail.textBoxVek.Text = row.Cells[4].Value.ToString();
-                Adresa adresa = adresaManager.GetAdresa(int.Parse(row.Cells[5].Value.ToString()));
-                if (row.Cells[6].Value?.ToString() == null)
+                foreach (var item in comboBoxTitulyZa.Items)
                 {
-                    osobaDetail.textBoxStudentID.Text = "";
+                    osobaDetail.comboBoxTitulyZa.Items.Add(item);
+                }
+                foreach (var item in comboBoxAdresa.Items)
+                {
+                    osobaDetail.comboBoxAdresa.Items.Add(item);
+                }
+                foreach (var item in comboBoxStudent.Items)
+                {
+                    osobaDetail.comboBoxStudent.Items.Add(item);
+                }
+                foreach (var item in comboBoxZamestnanec.Items)
+                {
+                    osobaDetail.comboBoxZamestnanec.Items.Add(item);
+                }
+
+                if (row.Cells[1].Value?.ToString() != null)
+                {
+                    string? selectedTitul = row.Cells[1].Value.ToString();
+
+                    for (int i = 0; i < comboBoxTitulyPred.Items.Count; i++)
+                    {
+                        string titulTemp = comboBoxTitulyPred.Items[i].ToString();
+                        if (titulTemp != null && titulTemp == selectedTitul)
+                        {
+                            osobaDetail.comboBoxTitulyPred.SelectedIndex = i;
+                            break;
+                        }
+                    }
                 }
                 else
                 {
-                    Student student = studentManager.GetStudent(int.Parse(row.Cells[6].Value.ToString()));
+                    osobaDetail.comboBoxTitulyPred.SelectedIndex = -1;
+                }
+
+                if (row.Cells[4].Value?.ToString() != null)
+                {
+                    string? selectedTitul = row.Cells[4].Value.ToString();
+
+                    for (int i = 0; i < comboBoxTitulyZa.Items.Count; i++)
+                    {
+                        string titulTemp = comboBoxTitulyZa.Items[i].ToString();
+                        if (titulTemp != null && titulTemp == selectedTitul)
+                        {
+                            osobaDetail.comboBoxTitulyZa.SelectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    osobaDetail.comboBoxTitulyZa.SelectedIndex = -1;
+                }
+
+                if (row.Cells[6].Value?.ToString() != null)
+                {
+                    Adresa adresa = adresaManager.GetAdresa(int.Parse(row.Cells[6].Value.ToString()));
+                    int adresaId = adresa.Id;
+
+                    for (int i = 0; i < comboBoxAdresa.Items.Count; i++)
+                    {
+                        Adresa adresaTemp = comboBoxAdresa.Items[i] as Adresa;
+                        if (adresaTemp != null && adresaTemp.Id == adresaId)
+                        {
+                            osobaDetail.comboBoxAdresa.SelectedIndex = i;
+                            break;
+                        }
+                    }
+                    osobaDetail.dataAdresa(adresa.Id);
+                }
+                else
+                {
+                    osobaDetail.comboBoxAdresa.SelectedIndex = -1;
+                }
+
+
+
+                if (row.Cells[7].Value?.ToString() != null)
+                {
+                    Student student = studentManager.GetStudent(int.Parse(row.Cells[7].Value.ToString()));
+                    int studentId = student.Id;
+
+                    for (int i = 0; i < comboBoxStudent.Items.Count; i++)
+                    {
+                        Student studentTemp = comboBoxStudent.Items[i] as Student;
+                        if (studentTemp != null && studentTemp.Id == studentId)
+                        {
+                            osobaDetail.comboBoxStudent.SelectedIndex = i;
+                            break;
+                        }
+                    }
                     osobaDetail.dataStudent(student.Id);
-                    osobaDetail.textBoxStudentID.Text = student.Id.ToString();
-                }
-                if (row.Cells[7].Value?.ToString() == null)
-                {
-                    osobaDetail.textBoxZamestnanecID.Text = "";
                 }
                 else
                 {
-                    Zamestnanec zamestnanec = zamestnanecManager.GetZamestnanec(int.Parse(row.Cells[7].Value.ToString()));
-                    osobaDetail.dataZamestnanec(zamestnanec.Id);
-                    osobaDetail.textBoxZamestnanecID.Text = zamestnanec.Id.ToString();
+                    osobaDetail.comboBoxStudent.SelectedIndex = -1;
                 }
-                osobaDetail.textBoxAdresaId.Text = adresa.Id.ToString();
-                osobaDetail.dataAdresa(adresa.Id);
+
+
+
+
+                if (row.Cells[8].Value?.ToString() != null)
+                {
+                    Zamestnanec zamestnanec = zamestnanecManager.GetZamestnanec(int.Parse(row.Cells[8].Value.ToString()));
+                    int zamestnanecId = zamestnanec.Id;
+
+                    for (int i = 0; i < comboBoxZamestnanec.Items.Count; i++)
+                    {
+                        Zamestnanec zamestnanecTemp = comboBoxZamestnanec.Items[i] as Zamestnanec;
+                        if (zamestnanecTemp != null && zamestnanecTemp.Id == zamestnanecId)
+                        {
+                            osobaDetail.comboBoxZamestnanec.SelectedIndex = i;
+                            break;
+                        }
+
+                    }
+                    osobaDetail.dataZamestnanec(zamestnanec.Id);
+                }
+                else
+                {
+                    osobaDetail.comboBoxZamestnanec.SelectedIndex = -1;
+                }
+
                 osobaDetail.ShowDialog();
             }
             catch (Exception ex)
@@ -260,8 +507,6 @@ namespace EvideenceObvytelstva2
                 AdresaDetail adresaDetail = new AdresaDetail(this);
                 DataGridViewRow row = dataGridAddress.SelectedRows[0];
                 osobaDetail osobaDetail = new osobaDetail(this);
-                //this.Hide();
-                //osobaDetail.Show();
                 adresaDetail.labelIDInput.Text = row.Cells[0].Value.ToString();
                 adresaDetail.textBoxUlice.Text = row.Cells[1].Value.ToString();
                 adresaDetail.textBoxPopisne.Text = row.Cells[2].Value.ToString();
@@ -281,11 +526,9 @@ namespace EvideenceObvytelstva2
         {
             textBoxJmeno.Text = string.Empty;
             textBoxPrijmeni.Text = string.Empty;
-            comboBoxTituly.Text = string.Empty;
+            comboBoxTitulyPred.Text = string.Empty;
+            comboBoxTitulyZa.Text = string.Empty;
             textBoxVek.Text = string.Empty;
-            textBoxAdresaId.Text = string.Empty;
-            textBoxStudentID.Text = string.Empty;
-            textBoxZamestnanecID.Text = string.Empty;
             dataOsoba();
             dataAdresa();
             dataSkola();
@@ -300,7 +543,7 @@ namespace EvideenceObvytelstva2
 
             foreach (Osoba item in temp)
             {
-                dataGrid.Rows.Add(item.Id, item.KrestniJmeno, item.Prijmeni, item.Titul, item.Vek, item.AddressId, item.StudentId, item.ZamestnanecId);
+                dataGrid.Rows.Add(item.Id, item.TitulPred, item.KrestniJmeno, item.Prijmeni, item.TitulZa, item.Vek, item.AddressId, item.StudentId, item.ZamestnanecId);
             }
             dataGrid.ClearSelection();
 
@@ -309,12 +552,15 @@ namespace EvideenceObvytelstva2
         public void dataAdresa()
         {
             dataGridAddress.Rows.Clear();
+            comboBoxAdresa.Items.Clear();
             List<Adresa> temp = adresaManager.GetAll();
 
             foreach (Adresa item in temp)
             {
                 dataGridAddress.Rows.Add(item.Id, item.Ulice, item.cisloPopisne, item.psc, item.Obec);
+                comboBoxAdresa.Items.Add(item);
             }
+            comboBoxAdresa.SelectedIndex = -1;
             dataGridAddress.ClearSelection();
         }
 
@@ -345,11 +591,13 @@ namespace EvideenceObvytelstva2
         public void dataStudent()
         {
             dataGridStudent.Rows.Clear();
+            comboBoxStudent.Items.Clear();
             List<Student> temp = studentManager.GetAll();
 
             foreach (Student item in temp)
             {
                 dataGridStudent.Rows.Add(item.Id, item.OborStudia, item.Rocnik, item.SkolaId);
+                comboBoxStudent.Items.Add(item);
             }
             dataGridStudent.ClearSelection();
         }
@@ -357,11 +605,13 @@ namespace EvideenceObvytelstva2
         public void dataZamestnanec()
         {
             dataGridZamestnanec.Rows.Clear();
+            comboBoxZamestnanec.Items.Clear();
             List<Zamestnanec> temp = zamestnanecManager.GetAll();
 
             foreach (Zamestnanec item in temp)
             {
                 dataGridZamestnanec.Rows.Add(item.Id, item.Nastup, item.Oddeleni, item.ZamestnaniId);
+                comboBoxZamestnanec.Items.Add(item);
             }
             dataGridZamestnanec.ClearSelection();
         }
@@ -371,8 +621,6 @@ namespace EvideenceObvytelstva2
             try
             {
                 PridejAdresu pridejAdresu = new PridejAdresu(this);
-                //this.Hide();
-                //osobaDetail.Show();
                 pridejAdresu.ShowDialog();
                 Reset();
             }
@@ -403,8 +651,6 @@ namespace EvideenceObvytelstva2
             try
             {
                 PridejSkolu pridejSkolu = new PridejSkolu(this);
-                //this.Hide();
-                //osobaDetail.Show();
                 pridejSkolu.ShowDialog();
                 Reset();
             }
@@ -515,12 +761,37 @@ namespace EvideenceObvytelstva2
             {
                 StudentDetail studentDetail = new StudentDetail(this);
                 DataGridViewRow row = dataGridStudent.SelectedRows[0];
-                //this.Hide();
-                //osobaDetail.Show();
+                List<Skola> temp = skolaManager.GetAll();
+                foreach (Skola item in temp)
+                {
+                    studentDetail.comboBoxSkola.Items.Add(item);
+                }
+
                 studentDetail.labelIDInput.Text = row.Cells[0].Value.ToString();
                 studentDetail.textOborStudia.Text = row.Cells[1].Value.ToString();
                 studentDetail.textBoxRocnik.Text = row.Cells[2].Value.ToString();
-                studentDetail.textBoxSkolaID.Text = row.Cells[3].Value.ToString();
+
+                if (row.Cells[3].Value?.ToString() != null)
+                {
+                    Skola skola = skolaManager.GetSkola(int.Parse(row.Cells[3].Value.ToString()));
+                    int skolaId = skola.Id;
+                    int i = 0;
+                    foreach (Skola item in temp)
+                    {
+                        Skola skolaTemp = item;
+                        if (skolaTemp != null && skolaTemp.Id == skolaId)
+                        {
+                            studentDetail.comboBoxSkola.SelectedIndex = i;
+                            break;
+                        }
+                        i++;
+                    }
+                    studentDetail.dataSkola(skola.Id);
+                }
+                else
+                {
+                    studentDetail.comboBoxSkola.SelectedIndex = -1;
+                }
 
                 studentDetail.ShowDialog();
                 dataStudent();
@@ -563,12 +834,34 @@ namespace EvideenceObvytelstva2
             {
                 SkolaDetail skolaDetail = new SkolaDetail(this);
                 DataGridViewRow row = dataGridSkola.SelectedRows[0];
-                //this.Hide();
-                //osobaDetail.Show();
+                foreach (var item in comboBoxAdresa.Items)
+                {
+                    skolaDetail.comboBoxAdresa.Items.Add(item);
+                }
+
                 skolaDetail.labelIDInput.Text = row.Cells[0].Value.ToString();
                 skolaDetail.textNazevSkoly.Text = row.Cells[1].Value.ToString();
                 skolaDetail.textBoxPoznamka.Text = row.Cells[2].Value.ToString();
-                skolaDetail.textBoxAdresaID.Text = row.Cells[3].Value.ToString();
+                if (row.Cells[3].Value?.ToString() != null)
+                {
+                    Adresa adresa = adresaManager.GetAdresa(int.Parse(row.Cells[3].Value.ToString()));
+                    int adresaId = adresa.Id;
+
+                    for (int i = 0; i < comboBoxAdresa.Items.Count; i++)
+                    {
+                        Adresa adresaTemp = comboBoxAdresa.Items[i] as Adresa;
+                        if (adresaTemp != null && adresaTemp.Id == adresaId)
+                        {
+                            skolaDetail.comboBoxAdresa.SelectedIndex = i;
+                            break;
+                        }
+                    }
+                    skolaDetail.dataAdresa(adresa.Id);
+                }
+                else
+                {
+                    skolaDetail.comboBoxAdresa.SelectedIndex = -1;
+                }
 
                 skolaDetail.ShowDialog();
                 dataSkola();
@@ -612,14 +905,40 @@ namespace EvideenceObvytelstva2
             {
                 ZamestnanecDetail zamestnanecDetail = new ZamestnanecDetail(this);
                 DataGridViewRow row = dataGridZamestnanec.SelectedRows[0];
-                //this.Hide();
-                //osobaDetail.Show();
+                List<Zamestnani> temp = zamestnaniManager.GetAll();
+                foreach (Zamestnani item in temp)
+                {
+                    zamestnanecDetail.comboBoxZamestnani.Items.Add(item);
+                }
+
                 zamestnanecDetail.labelIDInput.Text = row.Cells[0].Value.ToString();
                 DateOnly dateOnly = (DateOnly)row.Cells[1].Value;
                 DateTime dateTime = new DateTime(dateOnly.Year, dateOnly.Month, dateOnly.Day, 0, 0, 0);
                 zamestnanecDetail.dateTimePicker.Value = dateTime;
                 zamestnanecDetail.textBoxOddeleni.Text = row.Cells[2].Value.ToString();
-                zamestnanecDetail.textBoxZamestnaniID.Text = row.Cells[3].Value.ToString();
+
+                if (row.Cells[3].Value?.ToString() != null)
+                {
+                    Zamestnani zamestnani = zamestnaniManager.GetZamestnani(int.Parse(row.Cells[3].Value.ToString()));
+                    int zamestnaniId = zamestnani.Id;
+                    int i = 0;
+                    foreach (Zamestnani item in temp)
+                    {
+                        Zamestnani zamestnaniTemp = item;
+                        if (zamestnaniTemp != null && zamestnaniTemp.Id == zamestnaniId)
+                        {
+                            zamestnanecDetail.comboBoxZamestnani.SelectedIndex = i;
+                            break;
+                        }
+                        i++;
+                    }
+                    zamestnanecDetail.dataZamestnani(zamestnani.Id);
+                }
+                else
+                {
+                    zamestnanecDetail.comboBoxZamestnani.SelectedIndex = -1;
+                }
+
 
                 zamestnanecDetail.ShowDialog();
                 dataZamestnanec();
@@ -662,12 +981,35 @@ namespace EvideenceObvytelstva2
             {
                 ZamestnaniDetail zamestnaniDetail = new ZamestnaniDetail(this);
                 DataGridViewRow row = dataGridZamestnani.SelectedRows[0];
-                //this.Hide();
-                //osobaDetail.Show();
+                foreach (var item in comboBoxAdresa.Items)
+                {
+                    zamestnaniDetail.comboBoxAdresa.Items.Add(item);
+                }
+
                 zamestnaniDetail.labelIDInput.Text = row.Cells[0].Value.ToString();
                 zamestnaniDetail.textNazevZamestnani.Text = row.Cells[1].Value.ToString();
                 zamestnaniDetail.textBoxPoznamka.Text = row.Cells[2].Value.ToString();
-                zamestnaniDetail.textBoxAdresaID.Text = row.Cells[3].Value.ToString();
+
+                if (row.Cells[3].Value?.ToString() != null)
+                {
+                    Adresa adresa = adresaManager.GetAdresa(int.Parse(row.Cells[3].Value.ToString()));
+                    int adresaId = adresa.Id;
+
+                    for (int i = 0; i < comboBoxAdresa.Items.Count; i++)
+                    {
+                        Adresa adresaTemp = comboBoxAdresa.Items[i] as Adresa;
+                        if (adresaTemp != null && adresaTemp.Id == adresaId)
+                        {
+                            zamestnaniDetail.comboBoxAdresa.SelectedIndex = i;
+                            break;
+                        }
+                    }
+                    zamestnaniDetail.dataAdresa(adresa.Id);
+                }
+                else
+                {
+                    zamestnaniDetail.comboBoxAdresa.SelectedIndex = -1;
+                }
 
                 zamestnaniDetail.ShowDialog();
                 dataZamestnani();

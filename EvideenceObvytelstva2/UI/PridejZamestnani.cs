@@ -26,35 +26,41 @@ namespace EvideenceObvytelstva2.UI
         public void FillDataGrid()
         {
             dataGridAddress.Rows.Clear();
+            comboBoxAdresa.Items.Clear();
             List<Adresa> temp = mainForm.adresaManager.GetAll();
 
             foreach (Adresa item in temp)
             {
                 dataGridAddress.Rows.Add(item.Id, item.Ulice, item.cisloPopisne, item.psc, item.Obec);
+                comboBoxAdresa.Items.Add(item);
             }
+            comboBoxAdresa.SelectedIndex = 0;
 
         }
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            //TODO čeknout všechny textboxy
-            if (string.IsNullOrEmpty(textBoxPoznamka.Text))
+            if (string.IsNullOrEmpty(textBoxPoznamka.Text) || string.IsNullOrEmpty(textNazevZamestnani.Text))
             {
-                MessageBox.Show("Políčko Obec nevyplněno", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Políčko Poznámka nebo Název Zaměstnání nevyplněno", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBoxPoznamka.Focus();
                 return;
             }
             zamestnani = new Zamestnani();
-            if (mainForm.adresaManager.AdresaExist(int.Parse(textBoxAdresaID.Text)))
+            object? selectedAdresa = comboBoxAdresa.SelectedItem;
+            if (selectedAdresa == null)
             {
-                zamestnani.NazevFirmy = textNazevZamestnani.Text;
-                zamestnani.Poznamka = textBoxPoznamka.Text;
-                zamestnani.AdresaId = int.Parse(textBoxAdresaID.Text);
+                MessageBox.Show("Políčko Adresa musí být vyplněno", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
             else
             {
-                MessageBox.Show("Zaměstnání nepřidáno do databáze, Adresa neexistuje", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Adresa adresa = selectedAdresa as Adresa;
+                zamestnani.AdresaId = adresa.Id;
             }
+            zamestnani.NazevFirmy = textNazevZamestnani.Text;
+            zamestnani.Poznamka = textBoxPoznamka.Text;
+
             if (mainForm.zamestnaniManager.Add(zamestnani))
             {
                 MessageBox.Show("Zaměstnání přidáno do databáze", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);

@@ -33,7 +33,6 @@
             NazevSkoly = new DataGridViewTextBoxColumn();
             Poznamka = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
-            textBoxSkolaID = new TextBox();
             label8 = new Label();
             button2 = new Button();
             textBoxRocnik = new TextBox();
@@ -42,6 +41,7 @@
             label6 = new Label();
             labelIDInput = new Label();
             labelID = new Label();
+            comboBoxSkola = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dataGridSkola).BeginInit();
             SuspendLayout();
             // 
@@ -77,13 +77,6 @@
             dataGridViewTextBoxColumn4.HeaderText = "ID Adresy";
             dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             // 
-            // textBoxSkolaID
-            // 
-            textBoxSkolaID.Location = new Point(10, 115);
-            textBoxSkolaID.Name = "textBoxSkolaID";
-            textBoxSkolaID.Size = new Size(100, 23);
-            textBoxSkolaID.TabIndex = 44;
-            // 
             // label8
             // 
             label8.AutoSize = true;
@@ -95,7 +88,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(141, 114);
+            button2.Location = new Point(74, 144);
             button2.Name = "button2";
             button2.Size = new Size(75, 23);
             button2.TabIndex = 42;
@@ -153,15 +146,23 @@
             labelID.TabIndex = 46;
             labelID.Text = "ID:";
             // 
+            // comboBoxSkola
+            // 
+            comboBoxSkola.FormattingEnabled = true;
+            comboBoxSkola.Location = new Point(10, 115);
+            comboBoxSkola.Name = "comboBoxSkola";
+            comboBoxSkola.Size = new Size(199, 23);
+            comboBoxSkola.TabIndex = 54;
+            // 
             // StudentDetail
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(700, 171);
+            Controls.Add(comboBoxSkola);
             Controls.Add(labelIDInput);
             Controls.Add(labelID);
             Controls.Add(dataGridSkola);
-            Controls.Add(textBoxSkolaID);
             Controls.Add(label8);
             Controls.Add(button2);
             Controls.Add(textBoxRocnik);
@@ -182,7 +183,6 @@
         private DataGridViewTextBoxColumn NazevSkoly;
         private DataGridViewTextBoxColumn Poznamka;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        public TextBox textBoxSkolaID;
         public Label label8;
         private Button button2;
         public TextBox textBoxRocnik;
@@ -191,5 +191,6 @@
         public Label label6;
         public Label labelIDInput;
         public Label labelID;
+        public ComboBox comboBoxSkola;
     }
 }

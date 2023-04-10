@@ -31,5 +31,10 @@ namespace EvideenceObvytelstva2.Models
             Poznamka = poznamka;
             AdresaId = adresaId;
         }
+
+        public override string? ToString()
+        {
+            return $"{NazevSkoly}, {Poznamka}";
+        }
     }
 }

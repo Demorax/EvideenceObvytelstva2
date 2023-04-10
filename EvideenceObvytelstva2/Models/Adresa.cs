@@ -26,5 +26,10 @@ namespace EvideenceObvytelstva2.Models
             Obec = obec;
         }
         public Adresa() { }
+
+        public override string? ToString()
+        {
+            return $"{Ulice}, {cisloPopisne}, {psc}, {Obec}";
+        }
     }
 }

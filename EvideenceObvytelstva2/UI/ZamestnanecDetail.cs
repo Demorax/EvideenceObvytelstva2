@@ -18,32 +18,35 @@ namespace EvideenceObvytelstva2.UI
         {
             InitializeComponent();
             this.mainForm = mainForm;
-            FillDataGrid();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            //TODO čeknout všechny textboxy
             if (string.IsNullOrEmpty(textBoxOddeleni.Text))
             {
-                MessageBox.Show("Políčko Obec nevyplněno", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Políčko Oddělení nevyplněno", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBoxOddeleni.Focus();
                 return;
             }
             Zamestnanec zamestnanec = new Zamestnanec();
-            if (mainForm.zamestnaniManager.ZamestnaniExist(int.Parse(textBoxZamestnaniID.Text)))
+            object? selectedZamestnani = comboBoxZamestnani.SelectedItem;
+            if (selectedZamestnani == null)
             {
-                zamestnanec.Id = int.Parse(labelIDInput.Text);
-                DateTime dateTime = dateTimePicker.Value;
-                DateOnly dateOnly = DateOnly.FromDateTime(dateTime);
-                zamestnanec.Nastup = dateOnly;
-                zamestnanec.Oddeleni = textBoxOddeleni.Text;
-                zamestnanec.ZamestnaniId = int.Parse(textBoxZamestnaniID.Text);
+                MessageBox.Show("Políčko Zaměstnání musí být vyplněno", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
             else
             {
-                MessageBox.Show("Zamestnanec neupraven, Zaměstnání neexistuje", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Zamestnani zamestnani = selectedZamestnani as Zamestnani;
+                zamestnanec.ZamestnaniId = zamestnani.Id;
             }
+
+            DateTime dateTime = dateTimePicker.Value;
+            DateOnly dateOnly = DateOnly.FromDateTime(dateTime);
+            zamestnanec.Id = int.Parse(labelIDInput.Text);
+            zamestnanec.Nastup = dateOnly;
+            zamestnanec.Oddeleni = textBoxOddeleni.Text;
+
             if (mainForm.zamestnanecManager.Update(zamestnanec))
             {
                 MessageBox.Show("Zamestnanec upraven", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -54,15 +57,14 @@ namespace EvideenceObvytelstva2.UI
             }
         }
 
-        private void FillDataGrid()
+        public void dataZamestnani(int id)
         {
             dataGridZamestnani.Rows.Clear();
-            List<Zamestnani> temp = mainForm.zamestnaniManager.GetAll();
+            
+            Zamestnani zamestnani = mainForm.zamestnaniManager.GetZamestnani(id);
 
-            foreach (Zamestnani item in temp)
-            {
-                dataGridZamestnani.Rows.Add(item.Id, item.NazevFirmy, item.Poznamka, item.AdresaId);
-            }
+            dataGridZamestnani.Rows.Add(zamestnani.Id, zamestnani.NazevFirmy, zamestnani.Poznamka, zamestnani.AdresaId);
+            
 
         }
     }

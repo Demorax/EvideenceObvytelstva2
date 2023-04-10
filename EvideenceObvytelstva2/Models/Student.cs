@@ -14,7 +14,7 @@ namespace EvideenceObvytelstva2.Models
 
         public int SkolaId { get; set; }
 
-        public virtual Osoba Osoba { get; set; }
+        public virtual ICollection<Osoba> Osobas { get; set; }
         public virtual Skola Skola { get; set; }
 
         public Student() { }
@@ -32,6 +32,11 @@ namespace EvideenceObvytelstva2.Models
             OborStudia = oborStudia;
             Rocnik = rocnik;
             SkolaId = skolaId;
+        }
+
+        public override string? ToString()
+        {
+            return $"{OborStudia}, {Rocnik}";
         }
     }
 

@@ -18,30 +18,41 @@ namespace EvideenceObvytelstva2.UI
         {
             InitializeComponent();
             this.mainForm = mainForm;
-            FillDataGrid();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxRocnik.Text))
+            if (string.IsNullOrEmpty(textBoxRocnik.Text) || string.IsNullOrEmpty(textOborStudia.Text))
             {
-                MessageBox.Show("Políčko Obec nevyplněno", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Políčko Rocnik nebo Obor Studia nevyplněno", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBoxRocnik.Focus();
                 return;
             }
             Student student = new Student();
-            student.Id = int.Parse(labelIDInput.Text);
-            student.Rocnik = int.Parse(textBoxRocnik.Text);
-            student.OborStudia = textOborStudia.Text;
-            if (mainForm.skolaManager.SkolaExist(int.Parse(textBoxSkolaID.Text)))
+            object? selectedSkola = comboBoxSkola.SelectedItem;
+            if (selectedSkola == null)
             {
-                
-                student.SkolaId = int.Parse(textBoxSkolaID.Text);
+                MessageBox.Show("Políčko Škola musí být vyplněno", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
             else
             {
-                MessageBox.Show("Student neupraven, Škola neexistuje", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Skola skola = selectedSkola as Skola;
+                student.SkolaId = skola.Id;
             }
+            int rocnik;
+            if (int.TryParse(textBoxRocnik.Text, out rocnik))
+            {
+                student.Rocnik = rocnik;
+            }
+            else
+            {
+                MessageBox.Show("Políčko Ročník musí být vyplněno a pouze číslo", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            student.Id = int.Parse(labelIDInput.Text);
+            student.OborStudia = textOborStudia.Text;
+
             if (mainForm.studentManager.Update(student))
             {
                 MessageBox.Show("Student upraven", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -52,15 +63,13 @@ namespace EvideenceObvytelstva2.UI
             }
         }
 
-        public void FillDataGrid()
+        public void dataSkola(int id)
         {
             dataGridSkola.Rows.Clear();
-            List<Skola> temp = mainForm.skolaManager.GetAll();
 
-            foreach (Skola item in temp)
-            {
-                dataGridSkola.Rows.Add(item.Id, item.NazevSkoly, item.Poznamka, item.AdresaId);
-            }
+            Skola skola = mainForm.skolaManager.GetSkola(id);
+
+            dataGridSkola.Rows.Add(skola.Id, skola.NazevSkoly, skola.Poznamka, skola.AdresaId);
 
         }
     }

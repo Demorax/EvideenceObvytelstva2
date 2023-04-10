@@ -9,10 +9,12 @@ namespace EvideenceObvytelstva2.Models
     public class Osoba
     {
         public int Id { get; set; }
+
+        public string? TitulPred { get; set; }
         public string KrestniJmeno { get; set; }
         public string Prijmeni { get; set; }
 
-        public string Titul { get; set; }
+        public string? TitulZa { get; set; }
 
         public int Vek { get; set; }
         public int AddressId { get; set; }
@@ -24,12 +26,13 @@ namespace EvideenceObvytelstva2.Models
         public virtual Student? Student { get; set; }
         public virtual Zamestnanec? Zamestnanec { get; set; }
 
-        public Osoba(int id, string krestniJmeno, string prijmeni, string titul, int vek, int addressId, int? studentId, int? zamestnanecId)
+        public Osoba(int id, string? titulPred, string krestniJmeno, string prijmeni, string? titulZa, int vek, int addressId, int? studentId, int? zamestnanecId)
         {
             Id = id;
+            TitulPred = titulPred;
             KrestniJmeno = krestniJmeno;
             Prijmeni = prijmeni;
-            Titul = titul;
+            TitulZa = titulZa;
             Vek = vek;
             AddressId = addressId;
             StudentId = studentId;
@@ -40,11 +43,12 @@ namespace EvideenceObvytelstva2.Models
         {
         }
 
-        public Osoba(string krestniJmeno, string prijmeni, string titul, int vek, int addressId, int? studentId, int? zamestnanecId)
+        public Osoba(string? titulPred, string krestniJmeno, string prijmeni, string? titulZa, int vek, int addressId, int? studentId, int? zamestnanecId)
         {
+            TitulPred = titulPred;
             KrestniJmeno = krestniJmeno;
             Prijmeni = prijmeni;
-            Titul = titul;
+            TitulZa = titulZa;
             Vek = vek;
             AddressId = addressId;
             StudentId = studentId;

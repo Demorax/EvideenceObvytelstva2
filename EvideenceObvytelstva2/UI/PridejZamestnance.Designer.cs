@@ -28,71 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBoxZamestnaniID = new TextBox();
-            label8 = new Label();
             button2 = new Button();
-            textBoxOddeleni = new TextBox();
-            label5 = new Label();
-            label6 = new Label();
             dataGridZamestnani = new DataGridView();
             dataGridViewTextBoxColumn5 = new DataGridViewTextBoxColumn();
             NazevFirmy = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn7 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn8 = new DataGridViewTextBoxColumn();
+            comboBoxZamestnani = new ComboBox();
             dateTimePicker = new DateTimePicker();
+            label8 = new Label();
+            textBoxOddeleni = new TextBox();
+            label5 = new Label();
+            label6 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridZamestnani).BeginInit();
             SuspendLayout();
             // 
-            // textBoxZamestnaniID
-            // 
-            textBoxZamestnaniID.Location = new Point(149, 30);
-            textBoxZamestnaniID.Name = "textBoxZamestnaniID";
-            textBoxZamestnaniID.Size = new Size(100, 23);
-            textBoxZamestnaniID.TabIndex = 44;
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Location = new Point(149, 9);
-            label8.Name = "label8";
-            label8.Size = new Size(83, 15);
-            label8.TabIndex = 43;
-            label8.Text = "ID Zamestnani";
-            // 
             // button2
             // 
-            button2.Location = new Point(215, 139);
+            button2.Location = new Point(92, 169);
             button2.Name = "button2";
             button2.Size = new Size(75, 23);
             button2.TabIndex = 42;
             button2.Text = "Přidej";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
-            // 
-            // textBoxOddeleni
-            // 
-            textBoxOddeleni.Location = new Point(18, 30);
-            textBoxOddeleni.Name = "textBoxOddeleni";
-            textBoxOddeleni.Size = new Size(100, 23);
-            textBoxOddeleni.TabIndex = 41;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(24, 9);
-            label5.Name = "label5";
-            label5.Size = new Size(61, 15);
-            label5.TabIndex = 39;
-            label5.Text = "Oddělení: ";
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(18, 68);
-            label6.Name = "label6";
-            label6.Size = new Size(94, 15);
-            label6.TabIndex = 38;
-            label6.Text = "Datum Nástupu:";
             // 
             // dataGridZamestnani
             // 
@@ -126,26 +85,68 @@
             dataGridViewTextBoxColumn8.HeaderText = "ID Adresy";
             dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
             // 
+            // comboBoxZamestnani
+            // 
+            comboBoxZamestnani.FormattingEnabled = true;
+            comboBoxZamestnani.Location = new Point(12, 140);
+            comboBoxZamestnani.Name = "comboBoxZamestnani";
+            comboBoxZamestnani.Size = new Size(199, 23);
+            comboBoxZamestnani.TabIndex = 66;
+            // 
             // dateTimePicker
             // 
-            dateTimePicker.Location = new Point(18, 88);
+            dateTimePicker.Location = new Point(12, 84);
             dateTimePicker.Name = "dateTimePicker";
             dateTimePicker.Size = new Size(208, 23);
-            dateTimePicker.TabIndex = 46;
+            dateTimePicker.TabIndex = 65;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(12, 122);
+            label8.Name = "label8";
+            label8.Size = new Size(83, 15);
+            label8.TabIndex = 64;
+            label8.Text = "ID Zamestnani";
+            // 
+            // textBoxOddeleni
+            // 
+            textBoxOddeleni.Location = new Point(12, 29);
+            textBoxOddeleni.Name = "textBoxOddeleni";
+            textBoxOddeleni.Size = new Size(100, 23);
+            textBoxOddeleni.TabIndex = 63;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(18, 8);
+            label5.Name = "label5";
+            label5.Size = new Size(61, 15);
+            label5.TabIndex = 62;
+            label5.Text = "Oddělení: ";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(12, 64);
+            label6.Name = "label6";
+            label6.Size = new Size(94, 15);
+            label6.TabIndex = 61;
+            label6.Text = "Datum Nástupu:";
             // 
             // PridejZamestnance
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(751, 203);
+            Controls.Add(comboBoxZamestnani);
             Controls.Add(dateTimePicker);
-            Controls.Add(dataGridZamestnani);
-            Controls.Add(textBoxZamestnaniID);
             Controls.Add(label8);
-            Controls.Add(button2);
             Controls.Add(textBoxOddeleni);
             Controls.Add(label5);
             Controls.Add(label6);
+            Controls.Add(dataGridZamestnani);
+            Controls.Add(button2);
             Name = "PridejZamestnance";
             Text = "PridejZamestnance";
             ((System.ComponentModel.ISupportInitialize)dataGridZamestnani).EndInit();
@@ -154,18 +155,17 @@
         }
 
         #endregion
-
-        public TextBox textBoxZamestnaniID;
-        public Label label8;
         private Button button2;
-        public TextBox textBoxOddeleni;
-        public Label label5;
-        public Label label6;
         private DataGridView dataGridZamestnani;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private DataGridViewTextBoxColumn NazevFirmy;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
-        private DateTimePicker dateTimePicker;
+        public ComboBox comboBoxZamestnani;
+        public DateTimePicker dateTimePicker;
+        public Label label8;
+        public TextBox textBoxOddeleni;
+        public Label label5;
+        public Label label6;
     }
 }

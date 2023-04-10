@@ -34,13 +34,13 @@
             cisloPopisne = new DataGridViewTextBoxColumn();
             psc = new DataGridViewTextBoxColumn();
             Obec = new DataGridViewTextBoxColumn();
-            textBoxAdresaID = new TextBox();
             label8 = new Label();
             button2 = new Button();
             textBoxPoznamka = new TextBox();
             textNazevZamestnani = new TextBox();
             label5 = new Label();
             label6 = new Label();
+            comboBoxAdresa = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dataGridAddress).BeginInit();
             SuspendLayout();
             // 
@@ -81,13 +81,6 @@
             Obec.HeaderText = "Obec";
             Obec.Name = "Obec";
             // 
-            // textBoxAdresaID
-            // 
-            textBoxAdresaID.Location = new Point(12, 106);
-            textBoxAdresaID.Name = "textBoxAdresaID";
-            textBoxAdresaID.Size = new Size(100, 23);
-            textBoxAdresaID.TabIndex = 50;
-            // 
             // label8
             // 
             label8.AutoSize = true;
@@ -99,7 +92,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(143, 106);
+            button2.Location = new Point(83, 158);
             button2.Name = "button2";
             button2.Size = new Size(75, 23);
             button2.TabIndex = 48;
@@ -139,13 +132,21 @@
             label6.TabIndex = 44;
             label6.Text = "Název Zaměstnání:";
             // 
+            // comboBoxAdresa
+            // 
+            comboBoxAdresa.FormattingEnabled = true;
+            comboBoxAdresa.Location = new Point(12, 106);
+            comboBoxAdresa.Name = "comboBoxAdresa";
+            comboBoxAdresa.Size = new Size(199, 23);
+            comboBoxAdresa.TabIndex = 54;
+            // 
             // PridejZamestnani
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 193);
+            Controls.Add(comboBoxAdresa);
             Controls.Add(dataGridAddress);
-            Controls.Add(textBoxAdresaID);
             Controls.Add(label8);
             Controls.Add(button2);
             Controls.Add(textBoxPoznamka);
@@ -167,12 +168,12 @@
         private DataGridViewTextBoxColumn cisloPopisne;
         private DataGridViewTextBoxColumn psc;
         private DataGridViewTextBoxColumn Obec;
-        public TextBox textBoxAdresaID;
         public Label label8;
         private Button button2;
         public TextBox textBoxPoznamka;
         public TextBox textNazevZamestnani;
         public Label label5;
         public Label label6;
+        public ComboBox comboBoxAdresa;
     }
 }

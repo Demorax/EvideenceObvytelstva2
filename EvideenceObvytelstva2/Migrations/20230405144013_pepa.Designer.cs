@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EvideenceObvytelstva2.Migrations
 {
     [DbContext(typeof(ApplicationDB))]
-    [Migration("20230324151145_snadFinalSNull")]
-    partial class snadFinalSNull
+    [Migration("20230405144013_pepa")]
+    partial class pepa
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,8 +65,10 @@ namespace EvideenceObvytelstva2.Migrations
                     b.Property<int?>("StudentId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Titul")
-                        .IsRequired()
+                    b.Property<string>("TitulPred")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TitulZa")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Vek")
@@ -79,11 +81,9 @@ namespace EvideenceObvytelstva2.Migrations
 
                     b.HasIndex("AddressId");
 
-                    b.HasIndex("StudentId")
-                        .IsUnique();
+                    b.HasIndex("StudentId");
 
-                    b.HasIndex("ZamestnanecId")
-                        .IsUnique();
+                    b.HasIndex("ZamestnanecId");
 
                     b.ToTable("Osobas");
                 });
@@ -191,13 +191,13 @@ namespace EvideenceObvytelstva2.Migrations
                         .IsRequired();
 
                     b.HasOne("EvideenceObvytelstva2.Models.Student", "Student")
-                        .WithOne("Osoba")
-                        .HasForeignKey("EvideenceObvytelstva2.Models.Osoba", "StudentId")
+                        .WithMany("Osobas")
+                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("EvideenceObvytelstva2.Models.Zamestnanec", "Zamestnanec")
-                        .WithOne("Osoba")
-                        .HasForeignKey("EvideenceObvytelstva2.Models.Osoba", "ZamestnanecId")
+                        .WithMany("Osobas")
+                        .HasForeignKey("ZamestnanecId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Adresa");
@@ -267,14 +267,12 @@ namespace EvideenceObvytelstva2.Migrations
 
             modelBuilder.Entity("EvideenceObvytelstva2.Models.Student", b =>
                 {
-                    b.Navigation("Osoba")
-                        .IsRequired();
+                    b.Navigation("Osobas");
                 });
 
             modelBuilder.Entity("EvideenceObvytelstva2.Models.Zamestnanec", b =>
                 {
-                    b.Navigation("Osoba")
-                        .IsRequired();
+                    b.Navigation("Osobas");
                 });
 
             modelBuilder.Entity("EvideenceObvytelstva2.Models.Zamestnani", b =>

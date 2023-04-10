@@ -15,7 +15,7 @@ namespace EvideenceObvytelstva2.Models
         public string Oddeleni { get; set; }
 
         public int ZamestnaniId { get; set; }
-        public virtual Osoba Osoba { get; set; }
+        public virtual ICollection<Osoba> Osobas { get; set; }
         public virtual Zamestnani Zamestnani { get; set; }
 
         public Zamestnanec() { }
@@ -33,6 +33,11 @@ namespace EvideenceObvytelstva2.Models
             Nastup = nastup;
             Oddeleni = oddeleni;
             ZamestnaniId = zamestnaniId;
+        }
+
+        public override string? ToString()
+        {
+            return $"{Nastup}, {Oddeleni}";
         }
     }
 }

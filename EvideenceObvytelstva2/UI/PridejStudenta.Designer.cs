@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBoxSkolaID = new TextBox();
             label8 = new Label();
             button2 = new Button();
             textBoxRocnik = new TextBox();
@@ -40,15 +39,9 @@
             NazevSkoly = new DataGridViewTextBoxColumn();
             Poznamka = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
+            comboBoxSkola = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dataGridSkola).BeginInit();
             SuspendLayout();
-            // 
-            // textBoxSkolaID
-            // 
-            textBoxSkolaID.Location = new Point(19, 118);
-            textBoxSkolaID.Name = "textBoxSkolaID";
-            textBoxSkolaID.Size = new Size(100, 23);
-            textBoxSkolaID.TabIndex = 35;
             // 
             // label8
             // 
@@ -61,7 +54,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(150, 118);
+            button2.Location = new Point(78, 147);
             button2.Name = "button2";
             button2.Size = new Size(75, 23);
             button2.TabIndex = 32;
@@ -133,13 +126,21 @@
             dataGridViewTextBoxColumn4.HeaderText = "ID Adresy";
             dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             // 
+            // comboBoxSkola
+            // 
+            comboBoxSkola.FormattingEnabled = true;
+            comboBoxSkola.Location = new Point(19, 118);
+            comboBoxSkola.Name = "comboBoxSkola";
+            comboBoxSkola.Size = new Size(199, 23);
+            comboBoxSkola.TabIndex = 54;
+            // 
             // PridejStudenta
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(725, 198);
+            Controls.Add(comboBoxSkola);
             Controls.Add(dataGridSkola);
-            Controls.Add(textBoxSkolaID);
             Controls.Add(label8);
             Controls.Add(button2);
             Controls.Add(textBoxRocnik);
@@ -156,7 +157,6 @@
         #endregion
 
         public TextBox textBoxObec;
-        public TextBox textBoxSkolaID;
         public Label label7;
         public Label label8;
         private Button button2;
@@ -169,5 +169,6 @@
         private DataGridViewTextBoxColumn NazevSkoly;
         private DataGridViewTextBoxColumn Poznamka;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        public ComboBox comboBoxSkola;
     }
 }
